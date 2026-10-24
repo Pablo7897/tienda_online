@@ -4,6 +4,7 @@ Ejecucion desde la carpeta del proyecto: uvicorn main:app --reload
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from models.Pedido import Pedido, PedidoCreate, PedidoItemRead, PedidoRead
 from models.Producto import (
@@ -17,6 +18,15 @@ from models.Usuario import Cliente, Usuario, UsuarioCreate, UsuarioRead
 from Services.Tienda_service import TiendaService
 
 app = FastAPI(title="Tienda online")
+
+# CORS: permite que el frontend, que el navegador abre desde otra direccion,
+# pueda hacer peticiones a la API (sin esto el navegador las bloquea)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Los datos se guardan en memoria: se pierden al reiniciar el servidor
 servicio = TiendaService()

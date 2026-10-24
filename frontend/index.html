@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tienda online</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera-titulo">
+      <h1>Tienda online</h1>
+      <p>Frontend de la API REST hecha con FastAPI</p>
+    </div>
+
+    <!-- Direccion de la API: se puede cambiar por la IP de otro equipo -->
+    <form id="form-servidor" class="servidor">
+      <label for="input-servidor">Servidor de la API</label>
+      <div class="servidor-fila">
+        <input id="input-servidor" type="url" required placeholder="http://localhost:8000">
+        <button type="submit">Conectar</button>
+      </div>
+      <span id="estado-servidor" class="estado">Sin comprobar</span>
+    </form>
+  </header>
+
+  <nav class="pestanas" aria-label="Secciones">
+    <button class="pestana activa" data-pestana="productos">Productos</button>
+    <button class="pestana" data-pestana="usuarios">Usuarios</button>
+    <button class="pestana" data-pestana="pedidos">Pedidos</button>
+  </nav>
+
+  <main>
+    <!-- ===================== PRODUCTOS ===================== -->
+    <section id="pestana-productos" class="seccion">
+      <div class="tarjeta">
+        <div class="tarjeta-cabecera">
+          <h2>Productos</h2>
+          <button id="btn-recargar-productos" class="secundario">Recargar</button>
+        </div>
+        <p id="msg-lista-productos" class="mensaje"></p>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr><th>Nombre</th><th>Tipo</th><th>Precio</th><th>Stock</th><th>Detalles</th><th></th></tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
+          </table>
+        </div>
+        <p id="vacio-productos" class="vacio">Todavía no hay productos.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h2>Nuevo producto</h2>
+        <form id="form-producto" class="formulario">
+          <label>Tipo
+            <select id="producto-tipo">
+              <option value="generico">Genérico</option>
+              <option value="electronico">Electrónico</option>
+              <option value="ropa">Ropa</option>
+            </select>
+          </label>
+          <label>Nombre <input id="producto-nombre" required></label>
+          <label>Precio (€) <input id="producto-precio" type="number" min="0.01" step="0.01" required></label>
+          <label>Stock <input id="producto-stock" type="number" min="0" step="1" required></label>
+
+          <!-- Campos que solo se muestran segun el tipo elegido -->
+          <label class="solo-electronico">Meses de garantía
+            <input id="producto-garantia" type="number" min="0" step="1">
+          </label>
+          <label class="solo-ropa">Talla <input id="producto-talla"></label>
+          <label class="solo-ropa">Color <input id="producto-color"></label>
+
+          <button type="submit">Crear producto</button>
+        </form>
+        <p id="msg-producto" class="mensaje"></p>
+      </div>
+    </section>
+
+    <!-- ===================== USUARIOS ===================== -->
+    <section id="pestana-usuarios" class="seccion" hidden>
+      <div class="tarjeta">
+        <div class="tarjeta-cabecera">
+          <h2>Usuarios</h2>
+          <button id="btn-recargar-usuarios" class="secundario">Recargar</button>
+        </div>
+        <p id="msg-lista-usuarios" class="mensaje"></p>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr><th>Nombre</th><th>Email</th><th>Tipo</th><th>Id</th></tr>
+            </thead>
+            <tbody id="tabla-usuarios"></tbody>
+          </table>
+        </div>
+        <p id="vacio-usuarios" class="vacio">Todavía no hay usuarios.</p>
+      </div>
+
+      <div class="tarjeta">
+        <h2>Nuevo usuario</h2>
+        <form id="form-usuario" class="formulario">
+          <label>Tipo
+            <select id="usuario-tipo">
+              <option value="cliente">Cliente</option>
+              <option value="administrador">Administrador</option>
+            </select>
+          </label>
+          <label>Nombre <input id="usuario-nombre" required></label>
+          <label>Email <input id="usuario-email" type="email" required></label>
+          <label class="solo-cliente">Dirección <input id="usuario-direccion"></label>
+          <button type="submit">Crear usuario</button>
+        </form>
+        <p id="msg-usuario" class="mensaje"></p>
+      </div>
+    </section>
+
+    <!-- ===================== PEDIDOS ===================== -->
+    <section id="pestana-pedidos" class="seccion" hidden>
+      <div class="tarjeta">
+        <h2>Nuevo pedido</h2>
+        <form id="form-pedido" class="formulario-pedido">
+          <label>Cliente <select id="pedido-cliente" required></select></label>
+          <div>
+            <span class="etiqueta">Productos</span>
+            <div id="pedido-lineas" class="lineas"></div>
+            <button type="button" id="btn-anadir-linea" class="secundario">+ Añadir producto</button>
+          </div>
+          <button type="submit">Crear pedido</button>
+        </form>
+        <p id="msg-pedido" class="mensaje"></p>
+        <div id="resultado-pedido"></div>
+      </div>
+
+      <div class="tarjeta">
+        <h2>Pedidos de un usuario</h2>
+        <form id="form-historial" class="formulario-linea">
+          <label>Cliente <select id="historial-cliente" required></select></label>
+          <button type="submit">Consultar</button>
+        </form>
+        <p id="msg-historial" class="mensaje"></p>
+        <div id="lista-pedidos"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

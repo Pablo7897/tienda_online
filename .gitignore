@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Base de datos SQLite: se crea sola al arrancar la API
+*.db
+
+*.zip
